@@ -25,8 +25,7 @@ fun String.toBigDecimal(): BigDecimal? {
     }
 }
 
-inline fun <reified T : Enum<T>> String.toEnum(): T? {
-    if (startsWith("UNK"))
-        return null
-    return enumValueOf<T>(this)
+inline fun <reified T : Enum<T>> String.toEnum() = when {
+    startsWith("UNK") -> null
+    else -> enumValueOf<T>(this)
 }
