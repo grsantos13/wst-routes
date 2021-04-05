@@ -6,21 +6,21 @@ option java_outer_classname = "Route";
 
 package br.com.gn;
 
-service PointService{
-  rpc create(NewPointRequest) returns (PointResponse) {}
-  rpc read(ReadPointRequest) returns (PointsResponse) {}
+service EventService{
+  rpc create(NewEventRequest) returns (EventResponse) {}
+  rpc read(ReadEventRequest) returns (EventsResponse) {}
 }
 
-message NewPointRequest {
+message NewEventRequest {
   string name = 1;
 }
 
-message PointResponse{
+message EventResponse{
   string id = 1;
   string name = 2;
 }
 
-message ReadPointRequest {}
-message PointsResponse{
-  repeated PointResponse point = 1;
+message ReadEventRequest {}
+message EventsResponse{
+  repeated EventResponse event = 1;
 }
