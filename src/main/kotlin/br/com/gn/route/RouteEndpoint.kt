@@ -1,8 +1,6 @@
 package br.com.gn.route
 
-import br.com.gn.NewRouteRequest
-import br.com.gn.RouteResponse
-import br.com.gn.RouteServiceGrpc
+import br.com.gn.*
 import br.com.gn.shared.exception.ErrorHandler
 import io.grpc.stub.StreamObserver
 import io.micronaut.validation.validator.Validator
@@ -13,7 +11,7 @@ import javax.validation.ConstraintViolationException
 
 @ErrorHandler
 @Singleton
-class NewRouteEndpoint(
+class RouteEndpoint(
     private val repository: RouteRepository,
     private val manager: EntityManager,
     private val validator: Validator
@@ -27,9 +25,19 @@ class NewRouteEndpoint(
         if (validation.isNotEmpty())
             throw ConstraintViolationException(validation)
 
-        manager.persist(route)
+        repository.save(route)
         responseObserver.onNext(route.toGrpcRouteResponse())
         responseObserver.onCompleted()
 
+    }
+
+    @Transactional
+    override fun exists(request: ExistsRouteRequest, responseObserver: StreamObserver<ExistsRouteResponse>) {
+        responseObserver.onNext(
+            ExistsRouteResponse.newBuilder()
+                .setExists(repository.existsByName(request.name))
+                .build()
+        )
+        responseObserver.onCompleted()
     }
 }

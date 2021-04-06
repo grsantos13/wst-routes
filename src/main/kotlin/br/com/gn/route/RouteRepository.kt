@@ -6,4 +6,5 @@ import java.util.*
 
 @Repository
 interface RouteRepository : JpaRepository<Route, UUID> {
+    fun existsByName(name: String): Boolean
 }
