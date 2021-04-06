@@ -17,7 +17,7 @@ import javax.validation.constraints.PositiveOrZero
 class RouteEvent(
     @field:NotNull @field:Valid @ManyToOne @JoinColumn(nullable = false) val event: Event,
     @field:NotNull @field:PositiveOrZero @Column(nullable = false) val leadTime: Int,
-    @field:NotNull @field:Positive @Column(nullable = false) val indexOrder: Int,
+    @field:NotNull @field:Positive @Column(nullable = false, name = "index_order") val indexOrder: Int,
     @field:NotNull @field:Valid @ManyToOne @JoinColumn(nullable = false) val route: Route
 ) {
     @Id
