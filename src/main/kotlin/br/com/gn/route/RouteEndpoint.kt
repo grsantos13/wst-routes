@@ -1,8 +1,6 @@
 package br.com.gn.route
 
-import br.com.gn.NewRouteRequest
-import br.com.gn.RouteResponse
-import br.com.gn.RouteServiceGrpc
+import br.com.gn.*
 import br.com.gn.register.Register
 import br.com.gn.shared.exception.ErrorHandler
 import io.grpc.stub.StreamObserver
@@ -14,7 +12,7 @@ import javax.validation.ConstraintViolationException
 
 @ErrorHandler
 @Singleton
-class NewRouteEndpoint(
+class RouteEndpoint(
     private val repository: RouteRepository,
     private val manager: EntityManager,
     private val validator: Validator
@@ -44,5 +42,37 @@ class NewRouteEndpoint(
         responseObserver.onNext(route.toGrpcRouteResponse())
         responseObserver.onCompleted()
 
+    }
+
+    @Transactional
+    override fun read(request: ReadRouteRequest, responseObserver: StreamObserver<RoutesResponse>) {
+        var routes = when (request.name) {
+            null -> repository.findAll()
+            else -> repository.findByName(request.name)
+        }.map { it.toGrpcRouteResponse() }
+
+        responseObserver.onNext(
+            RoutesResponse.newBuilder()
+                .addAllRoutes(routes)
+                .build()
+        )
+        responseObserver.onCompleted()
+    }
+
+    @Transactional
+    override fun awaitingRegistration(
+        request: AwaitingRegistrationRequest,
+        responseObserver: StreamObserver<AwaitingRegistrationResponse>
+    ) {
+        val list = manager.createQuery(" select r from Register r ", Register::class.java)
+            .resultList
+            .map { it.toGrpcRouteResponse() }
+
+        responseObserver.onNext(
+            AwaitingRegistrationResponse.newBuilder()
+                .addAllRoutes(list)
+                .build()
+        )
+        responseObserver.onCompleted()
     }
 }

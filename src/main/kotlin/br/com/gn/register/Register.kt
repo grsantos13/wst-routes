@@ -1,6 +1,8 @@
 package br.com.gn.register
 
+import br.com.gn.AwaitingRegistrationResponse.AwaitingRegistrationRouteResponse
 import br.com.gn.route.OperationType
+import br.com.gn.utils.toEnum
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -16,4 +18,13 @@ class Register(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    fun toGrpcRouteResponse(): AwaitingRegistrationRouteResponse {
+        return AwaitingRegistrationRouteResponse.newBuilder()
+            .setName(name)
+            .setExporterCode(exporterCode)
+            .setImporterPlant(importerPlant)
+            .setType(type!!.name.toEnum<br.com.gn.OperationType>())
+            .build()
+    }
 }

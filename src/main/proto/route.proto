@@ -13,6 +13,8 @@ service EventService{
 
 service RouteService{
   rpc create(NewRouteRequest) returns (RouteResponse) {}
+  rpc read(ReadRouteRequest) returns (RoutesResponse) {}
+  rpc awaitingRegistration(AwaitingRegistrationRequest) returns (AwaitingRegistrationResponse) {}
 }
 
 message NewEventRequest {
@@ -57,4 +59,25 @@ message RouteResponse {
   string exporterCode = 4;
   string importerPlant = 5;
   OperationType type = 6;
+}
+
+message ReadRouteRequest {
+  string name = 1;
+}
+
+message RoutesResponse {
+  repeated RouteResponse routes = 1;
+}
+
+message AwaitingRegistrationRequest {}
+
+message AwaitingRegistrationResponse{
+  repeated AwaitingRegistrationRouteResponse routes = 1;
+
+  message AwaitingRegistrationRouteResponse {
+    string name = 1;
+    string exporterCode = 2;
+    string importerPlant = 3;
+    OperationType type = 4;
+  }
 }

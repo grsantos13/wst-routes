@@ -12,4 +12,6 @@ interface RouteRepository : JpaRepository<Route, UUID> {
         importerPlant: String,
         type: OperationType
     ): Boolean
+
+    fun findByName(name: String): List<Route>
 }
