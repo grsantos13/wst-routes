@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.*
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.10"
     id("org.jetbrains.kotlin.kapt") version "1.4.10"
@@ -11,6 +12,7 @@ plugins {
 version = "0.1"
 group = "br.com.gn"
 
+val kotlinVersion=project.properties.get("kotlinVersion")
 repositories {
     mavenCentral()
 }
@@ -34,6 +36,7 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.kafka:micronaut-kafka")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.h2database:h2")
@@ -73,11 +76,20 @@ sourceSets {
 }
 
 protobuf {
-    protoc { artifact = "com.google.protobuf:protoc:3.14.0" }
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.14.0"
+    }
     plugins {
-        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.33.1" }
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.33.1"
+        }
     }
     generateProtoTasks {
-        all()*.plugins { grpc {} }
+        ofSourceSet("main").forEach {
+            it.plugins {
+                // Apply the "grpc" plugin whose spec is defined above, without options.
+                id("grpc")
+            }
+        }
     }
 }
