@@ -38,8 +38,6 @@ class Consumer(
 
             if (!exists)
                 manager.persist(Register(name, exporterCode, importerPlant, type))
-
-            exists
         }
     }
 }
