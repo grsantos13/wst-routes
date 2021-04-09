@@ -25,7 +25,7 @@ class Consumer(
     @Transactional
     @Topic("routes")
     fun receive(@KafkaKey name: String, @Valid @Body message: RouteMessage) {
-        val exists = with(message) {
+        with(message) {
             val type = type.name.toEnum<OperationType>()
                 ?: throw IllegalArgumentException("Operation type must not be null")
 
