@@ -1,6 +1,6 @@
 package br.com.gn.shared.kafka
 
-import br.com.gn.register.Register
+import br.com.gn.route.register.Register
 import br.com.gn.route.OperationType
 import br.com.gn.route.RouteRepository
 import br.com.gn.utils.toEnum

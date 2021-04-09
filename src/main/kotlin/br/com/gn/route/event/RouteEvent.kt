@@ -1,7 +1,8 @@
-package br.com.gn.route
+package br.com.gn.route.event
 
 import br.com.gn.RouteEventResponse
 import br.com.gn.event.Event
+import br.com.gn.route.Route
 import javax.persistence.*
 import javax.validation.Valid
 import javax.validation.constraints.NotNull

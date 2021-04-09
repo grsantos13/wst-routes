@@ -1,4 +1,4 @@
-package br.com.gn.register
+package br.com.gn.route.register
 
 import br.com.gn.AwaitingRegistrationResponse.AwaitingRegistrationRouteResponse
 import br.com.gn.route.OperationType

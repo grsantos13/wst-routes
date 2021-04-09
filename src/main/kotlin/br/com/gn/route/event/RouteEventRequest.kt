@@ -1,6 +1,7 @@
-package br.com.gn.route
+package br.com.gn.route.event
 
 import br.com.gn.event.Event
+import br.com.gn.route.Route
 import br.com.gn.shared.exception.ObjectNotFoundException
 import io.micronaut.core.annotation.Introspected
 import javax.persistence.EntityManager

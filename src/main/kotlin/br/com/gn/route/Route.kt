@@ -1,6 +1,7 @@
 package br.com.gn.route
 
 import br.com.gn.RouteResponse
+import br.com.gn.route.event.RouteEventRequest
 import br.com.gn.utils.toEnum
 import java.util.*
 import javax.persistence.*

@@ -1,7 +1,7 @@
 package br.com.gn.route
 
 import br.com.gn.*
-import br.com.gn.register.Register
+import br.com.gn.route.register.Register
 import br.com.gn.shared.exception.ErrorHandler
 import io.grpc.stub.StreamObserver
 import io.micronaut.validation.validator.Validator
